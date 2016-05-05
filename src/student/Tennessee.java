@@ -10,6 +10,7 @@ import game.Explorer;
 import game.Node;
 import game.NodeStatus;
 
+
 public class Tennessee extends Explorer {
     /** Get to the orb in as few steps as possible. Once you get there, 
      * you must return from the function in order to pick
@@ -53,7 +54,7 @@ public class Tennessee extends Explorer {
     	}
     	Collection<NodeStatus> n = state.neighbors();
     	
-    	/*if(first == "left"){
+    	if(first == "left"){
     		for(NodeStatus tester: n){
     			if(state.distanceToOrb() == 0){
             		return;
@@ -167,7 +168,7 @@ public class Tennessee extends Explorer {
         			dfs(state, set, currentPos, priority[0], priority[1]);
     			}
     		}
-    	}*/
+    	}
     	
 
     	for(NodeStatus current:n){
@@ -282,10 +283,19 @@ public class Tennessee extends Explorer {
      * You will always have enough time to escape using the shortest path from the starting
      * position to the exit, although this will not collect much gold. For this reason, using 
      * Dijkstra's to plot the shortest path to the exit is a good starting solution. */
-    @Override public void getOut(EscapeState state) {
+    public void getOut(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
-       
+       List<Node> a = Paths.dijkstra(state.currentNode(),state.getExit());
+       a.remove(0);
+       for(Node n:a){
+       		state.moveTo(n);
+       		if(n.getTile().getGold()>0){
+       			state.seizeGold();
+       		}
+       }
     }
+
+
     
     
 }
