@@ -285,15 +285,71 @@ public class Tennessee extends Explorer {
      * Dijkstra's to plot the shortest path to the exit is a good starting solution. */
     public void getOut(EscapeState state) {
         //TODO: Escape from the cavern before time runs out
-       List<Node> a = Paths.dijkstra(state.currentNode(),state.getExit());
-       a.remove(0);
-       for(Node n:a){
-       		state.moveTo(n);
-       		if(n.getTile().getGold()>0){
-       			state.seizeGold();
-       		}
+       if(state.currentNode().getTile().getGold()>0){
+    	   state.seizeGold();
        }
+       getOutR(state);
+       
     }
+    
+    private void getOutR(EscapeState state){
+    	Collection<Node> availableNodes = state.getNodes();
+    	int weight = 0;
+        Node bestOne = null;
+        for(Node m:availableNodes){
+     	   if(m.getTile().getGold()>0){
+     		   List<Node> bestWay = Paths.dijkstra(state.currentNode(), m);
+     		   List<Node> returnWay = Paths.dijkstra(m, state.getExit());
+     		   
+     		   int totalGold = 0;
+     		   int totalWeight = 0;
+     		   int returnWeight = 0;
+     		   
+     		   for(int i = 1; i < bestWay.size(); i ++){
+     			   totalGold += bestWay.get(i).getTile().getGold();
+     			   totalWeight += bestWay.get(i-1).getEdge(bestWay.get(i)).length();
+     		   }
+     		   
+     		   for(int j = 1; j < returnWay.size();j ++){
+     			   returnWeight += returnWay.get(j-1).getEdge(returnWay.get(j)).length();
+     		   }
+     		   
+     		   if(totalWeight+returnWeight<state.stepsRemaining()-10){
+     			   int tempWeight = totalGold/totalWeight;
+     			   System.out.println("Tile ID: " + m.getId() + " weight: " + tempWeight);
+         		   if(tempWeight>weight){
+         			   System.out.println("BEST!!");
+         			   weight = tempWeight;
+         			   bestOne = m;
+         		   }
+     		   }
+     	   }
+        }
+        
+        if(bestOne == null){
+        	List<Node> a = Paths.dijkstra(state.currentNode(),state.getExit());
+            a.remove(0);
+            for(Node n:a){
+            		state.moveTo(n);
+            		if(n.getTile().getGold()>0){
+            			state.seizeGold();
+            		}
+            }
+        } else{
+        	List<Node> a = Paths.dijkstra(state.currentNode(), bestOne);
+            a.remove(0);
+            for(Node n:a){
+            		state.moveTo(n);
+            		if(n.getTile().getGold()>0){
+            			state.seizeGold();
+            		}
+            }
+        	getOutR(state);
+        }
+    }
+    
+    
+    
 
 
     
