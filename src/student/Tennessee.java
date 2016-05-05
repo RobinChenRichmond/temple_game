@@ -316,9 +316,7 @@ public class Tennessee extends Explorer {
      		   
      		   if(totalWeight+returnWeight<state.stepsRemaining()-10){
      			   int tempWeight = totalGold/totalWeight;
-     			   System.out.println("Tile ID: " + m.getId() + " weight: " + tempWeight);
          		   if(tempWeight>weight){
-         			   System.out.println("BEST!!");
          			   weight = tempWeight;
          			   bestOne = m;
          		   }
