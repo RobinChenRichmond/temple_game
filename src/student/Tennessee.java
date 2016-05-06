@@ -40,136 +40,29 @@ public class Tennessee extends Explorer {
 
     	HashSet<Long> a = new HashSet<Long>();
         a.add(state.currentLocation());
-    	dfs(state, a, state.currentLocation(),"left","up");
-        
-        
+    	dfs(state, a, state.currentLocation());
+
         return;
     }
     
-    public void dfs(ExploreState state, HashSet<Long> set, long prevPos, String first, String second){
+    public void dfs(ExploreState state, HashSet<Long> set, long prevPos){
 
     	
     	if(state.distanceToOrb() == 0){
     		return;
     	}
     	Collection<NodeStatus> n = state.neighbors();
-    	
-    	if(first == "left"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() == 1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
+    	for(NodeStatus p:n){
+    		if(state.distanceToOrb() == 0){
+    			return;
     		}
-    	} else if(first == "right"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() == -1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	}else if(first == "up"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() > 1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	}else if(first == "down"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() < -1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
+    		if(p.getDistanceToTarget() < state.distanceToOrb() && !set.contains(p.getId())){
+    			set.add(p.getId());
+    			long currentPos = state.currentLocation();
+    			state.moveTo(p.getId());
+    			dfs(state,set,currentPos);
     		}
     	}
-    	
-    	if(second == "left"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() == 1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	} else if(second == "right"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() == -1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	}else if(second == "up"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() > 1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	}else if(second == "down"){
-    		for(NodeStatus tester: n){
-    			if(state.distanceToOrb() == 0){
-            		return;
-            	}
-    			if(state.currentLocation()-tester.getId() < -1 && !set.contains(tester.getId())){
-    				set.add(tester.getId());
-    				long currentPos = state.currentLocation();
-        			long currentDistance = state.distanceToOrb();
-    				state.moveTo(tester.getId());
-    				String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-        			dfs(state, set, currentPos, priority[0], priority[1]);
-    			}
-    		}
-    	}
-    	
 
     	for(NodeStatus current:n){
     		if(state.distanceToOrb() == 0){
@@ -178,90 +71,17 @@ public class Tennessee extends Explorer {
     		if(!set.contains(current.getId())){
     			set.add(current.getId());
     			long currentPos = state.currentLocation();
-    			long currentDistance = state.distanceToOrb();
     			state.moveTo(current.getId());
-    			String[] priority = setPriority(state, currentPos, currentDistance, first, second);	
-    			dfs(state, set, currentPos, priority[0], priority[1]);
+    			dfs(state, set, currentPos);
     		}
     	}
     	if(state.distanceToOrb() == 0){
     		return;
+    	} else {
+    		state.moveTo(prevPos);
     	}
-        state.moveTo(prevPos);
     }
     
-    private String[] setPriority(ExploreState state, long currentPos, long currentDistance, String prevFirst, String prevSecond){
-    	String[] result = new String[2];
-    	String firstChoice = prevFirst;
-    	String secondChoice = prevSecond;
-    	if(state.currentLocation()-currentPos > 1){
-			// down
-			if(state.distanceToOrb()>currentDistance){
-				// should up
-				firstChoice = "up";
-				if(prevFirst != "up" && prevFirst != "down"){
-					secondChoice = prevFirst;
-				}
-			} else{
-				// should down
-				firstChoice = "down";
-				if(prevFirst != "up" && prevFirst != "down"){
-					secondChoice = prevFirst;
-				}
-			}
-		} else if(state.currentLocation()-currentPos < -1){
-			// up
-			if(state.distanceToOrb() > currentDistance){
-				// should down
-				firstChoice = "down";
-				if(prevFirst != "up" && prevFirst != "down"){
-					secondChoice = prevFirst;
-				}
-			} else{
-				// should up
-				firstChoice = "up";
-				if(prevFirst != "up" && prevFirst != "down"){
-					secondChoice = prevFirst;
-				}
-			}
-			
-		}else if(state.currentLocation()-currentPos == 1){
-			// right
-			if(state.distanceToOrb() > currentDistance){
-				// should left
-				firstChoice = "left";
-				if(prevFirst != "left" && prevFirst != "right"){
-					secondChoice = prevFirst;
-				}
-			} else{
-				// should right
-				firstChoice = "right";
-				if(prevFirst != "left" && prevFirst != "right"){
-					secondChoice = prevFirst;
-				}
-			}
-			
-		}else if(state.currentLocation()-currentPos == -1){
-			// left
-			if(state.distanceToOrb() > currentDistance){
-				// should right
-				firstChoice = "right";
-				if(prevFirst != "left" && prevFirst != "right"){
-					secondChoice = prevFirst;
-				}
-			} else{
-				// should left
-				firstChoice = "left";
-				if(prevFirst != "left" && prevFirst != "right"){
-					secondChoice = prevFirst;
-				}
-			}
-			
-		}
-    	result[0] = firstChoice;
-    	result[1] = secondChoice;
-    	return result;
-    }
     
     /** Get out the cavern before the ceiling collapses, trying to collect as much
      * gold as possible along the way. Your solution must ALWAYS get out before time runs
@@ -289,15 +109,16 @@ public class Tennessee extends Explorer {
     	   state.seizeGold();
        }
        getOutR(state);
-       
+
     }
     
     private void getOutR(EscapeState state){
     	Collection<Node> availableNodes = state.getNodes();
-    	int weight = 0;
+    	double weight = 0;
         Node bestOne = null;
         for(Node m:availableNodes){
-     	   if(m.getTile().getGold()>0){
+
+     	    if(m.getTile().getGold() > 0){
      		   List<Node> bestWay = Paths.dijkstra(state.currentNode(), m);
      		   List<Node> returnWay = Paths.dijkstra(m, state.getExit());
      		   
@@ -313,10 +134,14 @@ public class Tennessee extends Explorer {
      		   for(int j = 1; j < returnWay.size();j ++){
      			   returnWeight += returnWay.get(j-1).getEdge(returnWay.get(j)).length();
      		   }
-     		   
-     		   if(totalWeight+returnWeight<state.stepsRemaining()-10){
-     			   int tempWeight = totalGold/totalWeight;
-         		   if(tempWeight>weight){
+
+     		   if(totalWeight+returnWeight<state.stepsRemaining()){
+     			   double tempWeight = totalGold/totalWeight;
+     			   if(tempWeight > 40 && totalWeight < 35){
+     				   tempWeight += 10;
+     			   }
+         		   //System.out.println(tempWeight);
+     			   if(tempWeight>weight){
          			   weight = tempWeight;
          			   bestOne = m;
          		   }
@@ -345,7 +170,6 @@ public class Tennessee extends Explorer {
         	getOutR(state);
         }
     }
-    
     
     
 
