@@ -105,8 +105,6 @@ public class Tennessee extends Explorer {
     	   state.seizeGold();
        }
        getOutR(state);
-       //getOut2(state);
-
     }
     
     private void getOutR(EscapeState state){
@@ -137,7 +135,6 @@ public class Tennessee extends Explorer {
      			   if(tempWeight > 40 && totalWeight < 35){
      				   tempWeight += 10;
      			   }
-         		   //System.out.println(tempWeight);
      			   if(tempWeight>weight){
          			   weight = tempWeight;
          			   bestOne = m;
@@ -168,7 +165,7 @@ public class Tennessee extends Explorer {
         }
     }
     
-    private void getOut2(EscapeState state){
+    /*private void getOut2(EscapeState state){
     	Collection<Node> allNodes = state.getNodes();
     	int counter = 1;
     	for(Node m:allNodes){
@@ -429,7 +426,7 @@ public class Tennessee extends Explorer {
 		result[0] = (p2.getTile().getGold()+2000)*10/(moreW+1);
 		
 		return result;
-    }
+    }*/
     
     
 }
