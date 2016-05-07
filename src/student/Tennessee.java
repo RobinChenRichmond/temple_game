@@ -104,8 +104,8 @@ public class Tennessee extends Explorer {
        if(state.currentNode().getTile().getGold()>0){
     	   state.seizeGold();
        }
-       //getOutR(state);
-       getOut2(state);
+       getOutR(state);
+       //getOut2(state);
 
     }
     
